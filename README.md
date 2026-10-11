@@ -38,7 +38,7 @@ It finds your project URL and public key in your `.env` files. Then it scans:
 ```
 ✖ CRITICAL (3)
   Anyone can read 1,204 rows from "leads", including email, phone
-  User A can read user B's rows in "profiles" (matched on id), including email
+  User A can read 3 of user B's rows in "profiles" (matched on id), including email
   Service role key in web/admin.ts:4
 
 ▲ WARNING (2)

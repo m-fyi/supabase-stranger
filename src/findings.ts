@@ -33,7 +33,10 @@ type Entry = {
   ref: string;
 };
 
-const d = (f: Finding, k: string) => f.detail[k] ?? "?";
+const d = (f: Finding, k: string) => {
+  const v = f.detail[k] ?? "?";
+  return typeof v === "number" ? v.toLocaleString("en-US") : v;
+};
 
 /** Plain-language text for every finding. Agents read `ref` for the full fix. */
 export const catalog: Record<FindingId, Entry> = {
