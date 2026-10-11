@@ -28,7 +28,8 @@
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsx src/cli.ts",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "demo:server": "tsx test/serve-fake.ts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",

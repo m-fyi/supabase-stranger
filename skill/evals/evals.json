@@ -1,0 +1,23 @@
+{
+  "skill_name": "supabase-security",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "launching on product hunt tomorrow lol. is my supabase app safe?? its in examples/demo-app, local supabase runs at http://localhost:54399",
+      "expected_output": "Runs the outside scan, reports the critical leaks (service key in web/admin.ts, leads readable by anyone, profiles across users if users given) worst first in plain words, proposes a migration without applying it, tells the user to rotate the service key.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Can users of my app see each other's data? Project is examples/demo-app (Supabase at http://localhost:54399). I made two test accounts and put them in env: SUPABASE_USER_A_EMAIL=a@test.dev SUPABASE_USER_A_PASSWORD=pw-a SUPABASE_USER_B_EMAIL=b@test.dev SUPABASE_USER_B_PASSWORD=pw-b",
+      "expected_output": "Runs the cross-user test with both users, reports that A can read B's profile (with email) and list B's documents folder, says messages/notes are fine and settings could not be tested, fixes with auth.uid() owner policies and a storage folder policy.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "i think i put the service role key in my frontend somewhere by accident. can you check examples/demo-app and tell me what to do",
+      "expected_output": "Finds the service role key in web/admin.ts without printing it in full, tells the user to rotate it in the dashboard first (and that legacy JWT rotation changes the anon key), then removes it from the code.",
+      "files": []
+    }
+  ]
+}
