@@ -1,0 +1,40 @@
+{
+  "name": "supabase-stranger",
+  "version": "0.1.0",
+  "description": "See your Supabase the way a stranger does. Finds what anyone can read with your public key, what one user can read of another's, and the holes behind it.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "supabase-stranger": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "sql",
+    "skill"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "supabase",
+    "security",
+    "rls",
+    "postgres",
+    "audit",
+    "claude",
+    "ai"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
