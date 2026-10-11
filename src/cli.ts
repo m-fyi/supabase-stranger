@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { cpSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { createClient, decodeJwt } from "./http.js";
@@ -15,6 +16,8 @@ See your Supabase the way a stranger does. Read-only.
 Usage
   npx supabase-stranger [options]     scan a project
   npx supabase-stranger sql           print the SQL audit to run inside the database
+  npx supabase-stranger skill         install the supabase-security skill for Claude Code
+                                      (~/.claude/skills; add --project for ./.claude/skills)
 
 Options
   --url <url>           Project URL        (or SUPABASE_URL, or found in .env files)
@@ -61,6 +64,7 @@ async function main() {
       "fix-prompt": { type: "string" },
       "fail-on": { type: "string" },
       verbose: { type: "boolean" },
+      project: { type: "boolean" },
       help: { type: "boolean", short: "h" },
       version: { type: "boolean", short: "v" },
     },
@@ -68,9 +72,12 @@ async function main() {
 
   if (values.help) return console.log(HELP);
   if (values.version) return console.log(VERSION);
-  if (positionals[0] === "sql") {
-    const here = dirname(fileURLToPath(import.meta.url));
-    return process.stdout.write(readFileSync(join(here, "..", "sql", "audit.sql"), "utf8"));
+  const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+  if (positionals[0] === "sql") return process.stdout.write(readFileSync(join(root, "sql", "audit.sql"), "utf8"));
+  if (positionals[0] === "skill") {
+    const target = resolve(values.project ? ".claude/skills" : join(homedir(), ".claude", "skills"), "supabase-security");
+    cpSync(join(root, "skill", "supabase-security"), target, { recursive: true });
+    return console.log(`Installed the supabase-security skill in ${target}\nAsk your agent: "Is my Supabase app secure?"`);
   }
   if (positionals.length) fail(`unknown command "${positionals[0]}". Try --help.`);
 
